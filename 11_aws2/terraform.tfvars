@@ -99,3 +99,12 @@ sg_map = {
     }
   }
 }
+
+ec2_web = {
+  count = 0
+  ami = "ami-035f4c601044a7af4"
+  instance_type = "t3.micro"
+  key_name = "seoul-ed25519"
+  security_groups = [ "web" ]
+  on_public_subnet = true
+}

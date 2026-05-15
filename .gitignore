@@ -37,3 +37,18 @@ terraform.rc
 
 .env
 .env.*
+
+# SSH / AWS private keys
+# Private keys
+**/id_ed25519
+**/id_ed25519.pub
+**/*.pem
+**/*.key
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+crash.log
+crash.*.log

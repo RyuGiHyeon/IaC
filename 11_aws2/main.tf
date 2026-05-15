@@ -99,7 +99,7 @@ resource "aws_nat_gateway" "private_nat_gws" {
 
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
-  
+
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.name.id
@@ -114,7 +114,7 @@ resource "aws_route_table" "with_nat_privates" {
 
   vpc_id = aws_vpc.main.id
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.private_nat_gws[count.index].id
   }
   tags = {
@@ -142,10 +142,30 @@ resource "aws_route_table_association" "privates" {
   count = var.count_of_private_subnets
 
   route_table_id = (
-    var.create_nat_gw ? 
+    var.create_nat_gw ?
     aws_route_table.with_nat_privates[count.index].id :
     aws_route_table.without_nat_privates[count.index].id
   )
+  subnet_id = aws_subnet.privates[count.index].id
+}
+
+resource "aws_instance" "webs" {
+  count = var.ec2_web.count
   
-  subnet_id      = aws_subnet.privates[count.index].id
+  ami = var.ec2_web.ami
+  instance_type = var.ec2_web.instance_type
+  key_name = var.ec2_web.key_name
+  subnet_id = (
+    var.ec2_web.on_public_subnet
+    ? aws_subnet.publics[count.index % length(aws_subnet.publics)].id
+    : aws_subnet.privates[count.index % length(aws_subnet.privates)].id
+  )
+  security_groups = [
+    for name in var.ec2_web.security_groups:
+      aws_security_group.sg_map[name].id
+  ]
+  associate_public_ip_address = var.ec2_web.on_public_subnet
+  tags = {
+    Name = "${var.region_name}-ec2-web-${count.index + 1}"
+  }
 }

@@ -67,3 +67,14 @@ variable "sg_map" {
     }
   ))
 }
+
+variable "ec2_web" {
+  type = object({
+    count         = number
+    ami           = string
+    instance_type = string
+    key_name      = string
+    security_groups  = list(string)
+    on_public_subnet = bool
+  })
+}
