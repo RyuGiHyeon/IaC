@@ -1,19 +1,12 @@
-region: "ap-northeast-2"
+region : "ap-northeast-2"
 region_name: "seoul"
-cidr_block: "10.2.0.0/16"
+cidr_block : "10.2.0.0/16"
 
-# 공인 subnet의 수
-count_of_public_subnets: 2
-
-# 사설 subnet의 수
-count_of_private_subnets: 2
-
-# 서브넷팅 bit 수
-subnet_bit: 8
-count_of_az: 2
-create_nat_gw: false
-
-algorithm: "ED25519"
+count_of_public_subnets : 2
+count_of_private_subnets : 2
+subnet_bit : 8
+count_of_az : 2
+create_nat_gw : true
 
 # 보안그룹 정책들 - icmp, remote, web
 sg_map:
@@ -83,6 +76,9 @@ sg_map:
         to_port: 0
         cidr_blocks:
           - 0.0.0.0/0
+
+algorithm: "ED25519"
+
 
 ec2_web:
   ami: "ami-010502f62836f0c67"

@@ -16,6 +16,7 @@ locals {
   main = yamldecode(file("./variables.yaml"))
 }
 
+
 module "vpc" {
   source = "../modules/vpc"
 

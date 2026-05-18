@@ -2,7 +2,7 @@ resource "aws_security_group" "sg_map" {
   for_each = var.sg_map
 
   vpc_id = var.vpc_id
-  name   = "fw-${each.key}"
+  name = "fw-${each.key}"
   dynamic "ingress" {
     for_each = each.value.ingress_rules
     content {

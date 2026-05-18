@@ -14,11 +14,13 @@ resource "aws_vpc" "main" {
 resource "aws_subnet" "publics" {
   count = var.count_of_public_subnets
 
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = cidrsubnet(var.cidr_block, var.subnet_bit, count.index)
-  availability_zone = local.az_names[count.index % var.count_of_az]
+  vpc_id = aws_vpc.main.id
+
+  cidr_block = cidrsubnet(var.cidr_block, var.subnet_bit, count.index)
+  availability_zone = local.az_names[ count.index % var.count_of_az ]
+
   tags = {
-    Name = "${var.region_name}-subnet-public-${count.index + 1}"
+    Name = "${var.region_name}-subnet-public-${count.index}"
   }
 }
 
@@ -32,6 +34,7 @@ resource "aws_subnet" "privates" {
     Name = "${var.region_name}-subnet-private-${count.index + 1}"
   }
 }
+
 
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id

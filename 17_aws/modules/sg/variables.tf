@@ -1,7 +1,6 @@
 variable "vpc_id" {
     description = "AWS VPC의 ID"
     type = string
-
 }
 
 variable "sg_map" {
