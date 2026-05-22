@@ -26,10 +26,10 @@ resource "aws_s3_bucket_policy" "wordpress" {
 }
 
 resource "aws_s3_object" "files" {
-  for_each = var.s3_file_map
+  for_each = var.file_map
 
   bucket = aws_s3_bucket.wordpress.bucket
   key    = each.value.key
-  source = each.value.source
+  source = "${path.root}/files/${each.value.key}" # each.value.source
 }
 

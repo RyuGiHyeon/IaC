@@ -1,6 +1,9 @@
 # AWS Account ID
 account_id: 259732630270
 
+# Route53 관리중인 도메인명
+domainname: "rgh.it-edu.org"
+
 # AWS 리전코드
 region: "ap-northeast-2"
 
@@ -30,19 +33,10 @@ algorithm: "ED25519"
 # rsa_bits: 2048
 
 # S3 Bucket subname
-s3_subname: "wordpress"
+s3_subname: "test-board"
 
 # AWS IAM 역할 이름
 iam_role_name: "role-ec2-access-s3"
-
-# S3 Bucket upload Files
-s3_file_map:
-  wp-config:
-    key: "wp-config.php"
-    source: "./wp-config.php"
-  file1:
-    key: "file1.txt"
-    source: "./file1.txt"
 
 # 보안 그룹 정책들
 # ingress 정책들: icmp, remote, web, cahe, db
@@ -148,7 +142,6 @@ lt_web:
   instance_type: "t3.micro"
   iam_instance_profile:
     name: "role-ec2-access-s3"
-  user_data: "./start_script.sh"
 
 tg_web:
   target_type: "instance"
@@ -166,3 +159,39 @@ tg_web:
     timeout: 2
     interval: 5
     matcher: "200-299"
+
+file_map:
+  db_script:
+    key: "db_script.sh"
+  web_script:
+    key: "web_script.sh"
+  sql:
+    key: "db_init.sql"
+  config:
+    key: "config.php"
+  www_conf:
+    key: "www.conf"
+
+database:
+  db_name: "test_board"
+  hostname: "%"
+  username: "webmaster"
+  password: "P@ssw0rd"
+
+rds_mariadb:
+  engine: "mariadb"
+  engine_version: "10.11.16"
+  identifier: "database-board"
+  username: "root"
+  password: "password123"
+
+  instance_class: "db.t3.micro"
+  storage_type: "gp2"
+  allocated_storage: 20
+  multi_az: false
+  network_type: "IPV4"
+  publicly_accessible: false
+  skip_final_snapshot: true
+  deletion_protection: false
+  sg_names:
+    - db

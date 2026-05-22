@@ -9,5 +9,5 @@ resource "aws_launch_template" "web" {
   iam_instance_profile {
     name = var.lt_web.iam_instance_profile.name
   }
-  user_data = base64encode(file(var.lt_web.user_data))
+  user_data = base64encode(file("${path.root}/files/${var.file_map.web_script.key}"))
 }

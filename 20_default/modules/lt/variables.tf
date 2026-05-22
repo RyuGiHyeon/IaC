@@ -7,7 +7,6 @@ variable "lt_web" {
     iam_instance_profile = object({
       name = string
     })
-    user_data = string
   })
 }
 
@@ -15,4 +14,10 @@ variable "key_name" {
   description = "AWS 키페어 이름"
   type        = string
 
+}
+
+variable "file_map" {
+  type = map(object({
+    key = string
+  }))
 }

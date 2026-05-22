@@ -13,10 +13,10 @@ variable "iam_role_name" {
   type        = string
 }
 
-variable "s3_file_map" {
+variable "file_map" {
   type = map(object({
     key    = string
-    source = string
+    # source = string
   }))
 }
 
