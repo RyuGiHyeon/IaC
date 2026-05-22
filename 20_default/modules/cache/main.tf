@@ -1,20 +1,23 @@
 resource "aws_elasticache_serverless_cache" "main" {
-  engine               = "valkey"
-  major_engine_version = "7"
-  name                 = "cache-test-board"
-  description          = "Test Board Cache Server"
+  engine               = var.cache_valkey.engine
+  major_engine_version = var.cache_valkey.major_engine_version
+  name                 = var.cache_valkey.name
+  description          = var.cache_valkey.description
 
   subnet_ids         = var.private_subnet_ids
-  security_group_ids = [var.sg_map["cache"]]
+  security_group_ids = [
+    for name in var.cache_valkey.sg_names:
+    var.sg_map[name]
+  ]
   cache_usage_limits {
     data_storage {
-      minimum = 1
-      maximum = 10
-      unit    = "GB"
+      minimum = var.cache_valkey.cache_usage_limits.data_storage.minimum
+      maximum = var.cache_valkey.cache_usage_limits.data_storage.maximum
+      unit    = var.cache_valkey.cache_usage_limits.data_storage.unit
     }
     ecpu_per_second {
-      minimum = 1000
-      maximum = 2000
+      minimum = var.cache_valkey.cache_usage_limits.ecpu_per_second.minimum
+      maximum = var.cache_valkey.cache_usage_limits.ecpu_per_second.maximum
     }
   }
 }

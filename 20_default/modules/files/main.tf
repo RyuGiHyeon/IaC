@@ -21,8 +21,9 @@ resource "local_file" "web_script" {
     tar zxf /tmp/test_board.tar.gz -C /var/www/html
     
     aws s3 cp s3://s3-${var.account_id}-${var.s3_subname}/${var.file_map.config.key} /var/www/html/${var.file_map.config.key}
-    sleep 5
+    sleep 3
     aws s3 cp s3://s3-${var.account_id}-${var.s3_subname}/${var.file_map.www_conf.key} /etc/php-fpm.d/${var.file_map.www_conf.key}
+    sleep 3
 
     systemctl restart httpd.service
     systemctl enable  httpd.service

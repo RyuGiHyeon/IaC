@@ -195,3 +195,19 @@ rds_mariadb:
   deletion_protection: false
   sg_names:
     - db
+
+cache_valkey:
+  engine: "valkey"
+  major_engine_version: "7"
+  name: "cache-test-board"
+  description: "Test Board Cache Server"
+  sg_names:
+    - cache
+  cache_usage_limits:
+    data_storage:
+      minimum: 1
+      maximum: 10
+      unit: "GB"
+    ecpu_per_second:
+      minimum: 1000
+      maximum: 2000

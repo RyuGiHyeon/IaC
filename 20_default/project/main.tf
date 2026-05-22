@@ -96,7 +96,7 @@ module "route53" {
 module "rds" {
   source = "../modules/rds"
 
-  run_db_init        = 0
+  run_db_init        = 1
   private_subnet_ids = module.vpc.private_subnet_ids
   public_subnet_ids  = module.vpc.public_subnet_ids
   sg_map             = module.sg.sg_map
@@ -118,14 +118,15 @@ module "files" {
 
 output "value1" {
   value = module.cache.cache_endpoint
-  
+
 }
 
 module "cache" {
   source = "../modules/cache"
 
   private_subnet_ids = module.vpc.private_subnet_ids
-  sg_map = module.sg.sg_map
+  sg_map             = module.sg.sg_map
+  cache_valkey       = local.main.cache_valkey
 }
 
 resource "local_file" "key" {
